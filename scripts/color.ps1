@@ -46,7 +46,6 @@ while ($game_running -eq 'True') {
         $guess_numbers = 0
         Write-Host "Round starts" -f Green
         Write-Host "Round number: $game_rounds"
-        Write-Host "For dev purpose the round color is $round_color"
         Write-Host "The color pool is $colors"
         
         $hint = ''
@@ -58,7 +57,7 @@ while ($game_running -eq 'True') {
             $hint = $round_color.substring(0, 1)
         }
         
-        Write-Host "Hint: $hint"
+        
         
         $guessed = 'False'
         $guess_valid = 0
@@ -69,6 +68,7 @@ while ($game_running -eq 'True') {
 
             <#while inpute invalid code start#>
             do {
+                Write-Host "Hint: $hint"
                 $player_guess = Read-Host "Enter your guess"
                 $player_input = $player_guess
                 if ($player_input -in $colors) {
@@ -105,12 +105,13 @@ while ($game_running -eq 'True') {
                     $round_duration = "Round "
                     $round_duration += getTimeDuration($round_time)
                     Write-Host $round_duration -f Cyan
-                    Write-Host "Total number of guess this round: $guess_numbers. Total number of rounds played this game: $game_rounds" -f Cyan
+                    Write-Host "Total number of rounds played this game: $game_rounds" -f Cyan
                     Write-Host "Total rounds won this game: $rounds_won"
                     Write-Host "Round Ends" -f Red
                     $game_rounds += 1
                 }
                 if ($round_playing -eq 'True') {
+                    Write-Host "Total number of guess this round: $guess_numbers. "
                     Write-Host ('Current guessed colors list: {0}' -f ($guess_list -join ' '))
                 }
             }
@@ -141,6 +142,7 @@ while ($game_running -eq 'True') {
             Write-Host "Your answer " -nonewline
             Write-Host $player_input -f $player_input -nonewline
             Write-Host " is correct"
+            Write-Host "Total number of guess this round: $guess_numbers."
             $round_end = Get-Date
             $round_time = New-TimeSpan -Start $round_start -End $round_end
             $round_duration = "Round "
@@ -153,7 +155,7 @@ while ($game_running -eq 'True') {
                 $round_playing = 'False'
             }
             $rounds_won += 1          
-            Write-Host "Total number of guess this round: $guess_numbers. Total number of rounds played this game $game_rounds" -f Cyan
+            Write-Host "Total number of rounds played this game: $game_rounds" -f Cyan
             Write-Host "Total rounds won this game: $rounds_won"
             Write-Host "Round Ends" -f Red
             $game_rounds += 1
