@@ -81,7 +81,7 @@ while ($game_running -eq 'True') {
                 }
             }
             until ($guess_valid -eq 1)
-            <#while inpute invalid code end#>
+            <#while input invalid code end#>
         
 
 
@@ -92,18 +92,19 @@ while ($game_running -eq 'True') {
                 Write-Host $player_input -f $player_input -nonewline
                 Write-Host " is wrong"
                 
-                $prompt_to_continue = Read-Host "Enter 'y' or 'yes' to continue playing this round"
+                $prompt_to_continue = Read-Host "Enter 'y' or 'yes' to continue playing game"
 
                 if (($prompt_to_continue -ne 'y' -and $prompt_to_continue -ne 'yes')) {
                     <# Action to perform if the condition is true #>
+                    Write-Host "Round lost, can not continue this game #$game_rounds"  -f Red
                     $round_playing = 'False'                  
                     $round_end = Get-Date
                     $round_time = New-TimeSpan -Start $round_start -End $round_end
                     $round_duration = "Round "
                     $round_duration += getTimeDuration($round_time)
+                    Write-Host $round_duration -f Cyan
                     Write-Host "Total number of guess this round: $guess_numbers. Total number of rounds played this game: $game_rounds" -f Cyan
                     Write-Host "Total rounds won this game: $rounds_won"
-                    Write-Host $round_duration -f Cyan
                     Write-Host "Round Ends" -f Red
                     $game_rounds += 1
                 }
@@ -135,20 +136,20 @@ while ($game_running -eq 'True') {
             Write-Host "Your answer " -nonewline
             Write-Host $player_input -f $player_input -nonewline
             Write-Host " is correct"
+            $round_end = Get-Date
+            $round_time = New-TimeSpan -Start $round_start -End $round_end
+            $round_duration = "Round "
+            $round_duration += getTimeDuration($round_time)
+            Write-Host $round_duration -f Cyan
             $prompt_to_continue = Read-Host "Enter 'y' or 'yes' to continue playing"
 
             if ($prompt_to_continue -ne 'y' -and $prompt_to_continue -ne 'yes') {
                 <# Action to perform if the condition is true #>
                 $round_playing = 'False'
             }
-            $rounds_won += 1
-            $round_end = Get-Date
-            $round_time = New-TimeSpan -Start $round_start -End $round_end
-            $round_duration = "Round "
-            $round_duration += getTimeDuration($round_time)
+            $rounds_won += 1          
             Write-Host "Total number of guess this round: $guess_numbers. Total number of rounds played this game $game_rounds" -f Cyan
             Write-Host "Total rounds won this game: $rounds_won"
-            Write-Host $round_duration -f Cyan
             Write-Host "Round Ends" -f Red
             $game_rounds += 1
         }
