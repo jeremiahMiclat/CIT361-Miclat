@@ -34,6 +34,7 @@ while ($game_running -eq 'True') {
     $game_rounds = 1
     $rounds_won = 0
     $round_playing = 'True'
+    $guess_list = @()
     $SystemColors = [System.Enum]::getvalues([System.ConsoleColor])
     $colors = 'Black', 'DarkBlue', 'DarkGreen', 'DarkCyan', 'DarkRed', 'DarkMagenta', 'DarkYellow', 'Gray', 'DarkGray', 'Blue', 'Green', 'Cyan', 'Red', 'Magenta', 'Yellow', 'White'
     do {
@@ -88,6 +89,7 @@ while ($game_running -eq 'True') {
             <#if color not guessed code start#>
        
             if ($round_color -ne $player_input) {
+                $guess_list += $player_input
                 Write-Host "Your answer " -nonewline
                 Write-Host $player_input -f $player_input -nonewline
                 Write-Host " is wrong"
@@ -107,6 +109,9 @@ while ($game_running -eq 'True') {
                     Write-Host "Total rounds won this game: $rounds_won"
                     Write-Host "Round Ends" -f Red
                     $game_rounds += 1
+                }
+                if ($round_playing -eq 'True') {
+                    Write-Host ('Current guessed colors list: {0}' -f ($guess_list -join ' '))
                 }
             }
             else {
